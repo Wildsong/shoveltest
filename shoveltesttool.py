@@ -26,66 +26,67 @@ class ShovelTest_Tool(object):
         params = []
     
         baseline_fc = arcpy.Parameter(name="baseline",
-                                 displayName="Baseline Feature Class",
-                                 datatype="DEFeatureClass",
-                                 parameterType="Required", # Required|Optional|Derived
-                                 direction="Input", # Input|Output
+                                      displayName="Baseline Feature Class",
+                                      datatype="DEFeatureClass",
+                                      parameterType="Required", # Required|Optional|Derived
+                                      direction="Input", # Input|Output
                                 )
         baseline_fc.filter.list = ["Polyline"]
-        baseline_fc.value = "baseline" # default
+        baseline_fc.value = "testspace.gdb/baseline" # default
         params.append(baseline_fc)
         
         template_fc = arcpy.Parameter(name="template",
-                                 displayName="Template Feature Class",
-                                 datatype="DEFeatureClass",
-                                 parameterType="Required", # Required|Optional|Derived
-                                 direction="Input", # Input|Output
+                                      displayName="Template Feature Class",
+                                      datatype="DEFeatureClass",
+                                      parameterType="Required", # Required|Optional|Derived
+                                      direction="Input", # Input|Output
                                 )
         template_fc.filter.list = ["Polygon"]
-        template_fc.value = "template" # default
+        template_fc.value = "testspace.gdb/template" # default
         params.append(template_fc)
 
         output_workspace = arcpy.Parameter(name="output_workspace",
-                                    displayName="Output workspace",
-                                    datatype="DEWorkspace",
-                                    parameterType="Required", # Required|Optional|Derived
-                                    direction="Output", # Input|Output
+                                           displayName="Output workspace",
+                                           datatype="DEWorkspace",
+                                           parameterType="Required", # Required|Optional|Derived
+                                           direction="Input", # Input|Output
                                 )
         #output_fc.parameterDependencies = []
+        output_workspace.value = "testspace.gdb" # default
         params.append(output_workspace)
 
         output_poly = arcpy.Parameter(name="output_polygon_features",
-                                    displayName="Output polygon feature class",
-                                    datatype="DEFile",
-                                    parameterType="Required", # Required|Optional|Derived
-                                    direction="Output", # Input|Output
+                                      displayName="Output polygon feature class",
+                                      datatype="GPString",
+                                      parameterType="Required", # Required|Optional|Derived
+                                      direction="Input", # Input|Output
                                 )
         output_poly.value = "grid_poly"
         params.append(output_poly)
 
         output_point = arcpy.Parameter(name="output_point_features",
-                                    displayName="Output point feature class",
-                                    datatype="DEFile",
-                                    parameterType="Required", # Required|Optional|Derived
-                                    direction="Output", # Input|Output
+                                       displayName="Output point feature class",
+                                       datatype="GPString",
+                                       parameterType="Required", # Required|Optional|Derived
+                                       direction="Input", # Input|Output
                                 )
         output_point.value = "grid_point"
         params.append(output_point)
 
         width = arcpy.Parameter(name="grid_cell_width",
-                                    displayName="Width of a grid cell",
-                                    datatype="GPDouble",
-                                    parameterType="Required", # Required|Optional|Derived
-                                    direction="Input", # Input|Output
+                                displayName="Width of a grid cell",
+                                datatype="GPDouble",
+                                parameterType="Required", # Required|Optional|Derived
+                                direction="Input", # Input|Output
                                 )
         width.value = "50"
         params.append(width)
 
         height = arcpy.Parameter(name="grid_cell_height",
-                                    displayName="Height of a grid cell",
-                                    datatype="GPDouble",
-                                    parameterType="Required", # Required|Optional|Derived
-                                    direction="Input", # Input|Output
+                                 displayName="Height of a grid cell",
+                                 datatype="GPDouble",
+                                 parameterType="Required", # Required|Optional|Derived
+                                 direction="Input", # Input|Output
                                 )
         height.value = "50"
         params.append(height)
@@ -123,11 +124,12 @@ class ShovelTest_Tool(object):
         height       = parameters[6].valueAsText
         
         # Okay, finally go ahead and do the work.
-        makegrid(basesline_fc, template_fc, workspace, output_poly, output_point, width, height)
+        makegrid(baseline_fc, template_fc, workspace, output_poly, output_point, width, height)
         return
 
 if __name__ == "__main__":
     # Run me from the command line to find typos!
     foo = ShovelTest_Tool()
     foo.getParameterInfo()
+    foo.execute()
 # That's all!
